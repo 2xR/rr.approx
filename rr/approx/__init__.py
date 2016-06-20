@@ -35,7 +35,7 @@ from collections import Iterable
 
 
 # Module-level variables
-rtol = 1e-9   # default relative tolerance
+rtol = 1e-9  # default relative tolerance
 atol = 1e-12  # default absolute tolerance
 
 
