@@ -25,3 +25,11 @@ The ``ApproxContext`` class, also accessible as ``Approx.Context``, provides a c
     with Approx.Context(rtol=1e-5, atol=1e-3):  # temporary modification
         print Approx.Context()
     print Approx.Context()
+
+
+Installation
+------------
+
+.. code-block:: bash
+
+    pip install rr.approx
