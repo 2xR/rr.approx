@@ -32,9 +32,11 @@ should be much larger.
 from __future__ import absolute_import
 from itertools import izip_longest
 from collections import Iterable
+import pkgutil
 
 
 # Module-level variables
+__version__ = pkgutil.get_data(__name__, "VERSION").strip()
 rtol = 1e-9  # default relative tolerance
 atol = 1e-12  # default absolute tolerance
 

@@ -11,4 +11,13 @@ Approximate floating point arithmetic library. This simple module can be used to
     x = Approx(0.1) * 3
     print x == 0.3  # True
 
-The ``Approx`` class is very simple to use as a replacement for "regular" floats.
+The ``Approx`` class is very simple to use as a replacement for "regular" floats -- you can use ``Approx`` objects instead of floats in most (if not all) contexts: arithmetic and comparisons.
+
+The ``ApproxContext`` class, also accessible as ``Approx.Context`` provides a context manager to temporarily modify the module's tolerance parameters.
+
+.. code-block::
+
+    print approx.atol, approx.rtol
+    with Approx.Context(rtol=1e-5, atol=1e-3):
+        print approx.atol, approx.rtol
+    print approx.atol, approx.rtol
