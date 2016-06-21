@@ -37,16 +37,16 @@ import pkgutil
 
 # Module-level variables
 __version__ = pkgutil.get_data(__name__, "VERSION").strip()
-rtol = 1e-9  # default relative tolerance
-atol = 1e-12  # default absolute tolerance
+_rtol = 1e-9  # default relative tolerance
+_atol = 1e-12  # default absolute tolerance
 
 
 def tolerance(x, y):
-    """Compute the tolerance for the approximate comparison of x and y."""
-    global atol, rtol
+    """Compute the final tolerance for the approximate comparison of x and y."""
+    global _atol, _rtol
     x = float(x)
     y = float(y)
-    return atol + rtol * max(abs(x), abs(y))
+    return _atol + _rtol * max(abs(x), abs(y))
 
 
 def equal(x, y):
@@ -66,9 +66,9 @@ def equal(x, y):
     y = float(y)
     if x == y:
         return True
-    global atol, rtol
-    z = abs(x - y) - atol
-    return z <= 0.0 or z <= rtol * max(abs(x), abs(y))
+    global _atol, _rtol
+    z = abs(x - y) - _atol
+    return z <= 0.0 or z <= _rtol * max(abs(x), abs(y))
 
 
 class Approx(float):
@@ -207,30 +207,50 @@ class Approx(float):
 
 
 class ApproxContext(object):
-    """A context manager which temporarily changes the relative and/or absolute tolerances for
-    numeric comparisons. Note that this context manager *can* be reused multiple times."""
+    """
+    A context manager which temporarily changes the relative and/or absolute tolerances for
+    numeric comparisons. Note that this context manager *can* be reused multiple times.
+    """
     def __init__(self, rtol=None, atol=None):
-        self.rtol = rtol
-        self.atol = atol
+        global _rtol, _atol
+        self.rtol = rtol if rtol is not None else _rtol
+        self.atol = atol if atol is not None else _atol
         self.orig_rtol = None
         self.orig_atol = None
 
     def __repr__(self):
         return "{}(rtol={}, atol={})".format(type(self).__name__, self.rtol, self.atol)
 
+    @property
+    def active(self):
+        """A context is active if it has been applied (and it cannot be applied multiple times)."""
+        return self.orig_rtol is not None
+
+    def apply(self):
+        """Set the current relative and/or absolute tolerance for approximate comparisons."""
+        if self.active:
+            raise ValueError("{} is already active".format(self))
+        global _rtol, _atol
+        self.orig_rtol = _rtol
+        self.orig_atol = _atol
+        _rtol = self.rtol
+        _atol = self.atol
+
+    def restore(self):
+        """Restore the values of 'rtol' and 'atol' that were saved when the context was applied."""
+        if not self.active:
+            raise ValueError("{} is not active".format(self))
+        global _rtol, _atol
+        _rtol = self.orig_rtol
+        _atol = self.orig_atol
+        self.orig_rtol = None
+        self.orig_atol = None
+
     def __enter__(self):
-        global rtol, atol
-        self.orig_rtol = rtol
-        self.orig_atol = atol
-        if self.rtol is not None:
-            rtol = self.rtol
-        if self.atol is not None:
-            atol = self.atol
+        self.apply()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        global rtol, atol
-        rtol = self.orig_rtol
-        atol = self.orig_atol
+        self.restore()
 
 
 # Provide the context class as an alias through Approx

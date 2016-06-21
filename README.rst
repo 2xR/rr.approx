@@ -17,7 +17,10 @@ The ``ApproxContext`` class, also accessible as ``Approx.Context`` provides a co
 
 .. code-block:: python
 
-    print approx.atol, approx.rtol
+    from rr.approx import Approx
+
+
+    print Approx.Context()
     with Approx.Context(rtol=1e-5, atol=1e-3):
-        print approx.atol, approx.rtol
-    print approx.atol, approx.rtol
+        print Approx.Context()
+    print Approx.Context()
