@@ -30,6 +30,15 @@ The ``ApproxContext`` class, also accessible as ``Approx.Context``, provides a c
 Installation
 ------------
 
+From PyPI ("stable" release):
+
 .. code-block:: bash
 
     pip install rr.approx
+
+Or from the Git repo:
+
+.. code-block:: bash
+
+    git clone https://github.com/2xR/rr.approx.git
+    pip install ./rr.approx

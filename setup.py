@@ -21,7 +21,5 @@ setup(
         "Programming Language :: Python :: 2.7",
     ],
     packages=find_packages(),
-    package_data={
-        "rr.approx": ["VERSION", "LICENSE"],
-    },
+    include_package_data=True,
 )
