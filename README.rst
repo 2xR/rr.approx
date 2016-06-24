@@ -17,15 +17,19 @@ The ``ApproxContext`` class, also accessible as ``Approx.Context``, provides a c
 
 .. code-block:: python
 
-    from rr.approx import Approx
-
     print Approx.Context()  # display current context
-    Approx.Context(1e-4, 1e-2).apply()  # permanently modify tolerances
+    Approx.Context(rtol=1e-4, atol=1e-2).apply()  # permanently modify tolerances
     print Approx.Context()
     with Approx.Context(rtol=1e-5, atol=1e-3):  # temporary modification
         print Approx.Context()
     print Approx.Context()
 
+Disclaimer
+----------
+
+Please note that this module **does not solve** any problems with floating point numbers. What it does is provide a little (or big, depending on how you configure your tolerance parameters) buffer to compensate for rounding errors, but as these errors accumulate you can always get unexpected results.
+
+**Float rounding is inherently innaccurate** in all computers and programming languages due to representing a possibly recurring decimal in a finite number of digits. If you really care about exact results and don't mind paying a performance penalty, you should check out the `decimal <https://docs.python.org/2/library/decimal.html>`_ module from the standard library or some other alternative.
 
 Installation
 ------------
@@ -47,6 +51,8 @@ Or from the Git repo:
 Contributing
 ------------
 
-Improvements are welcome through github pull requests (tests would be nice to have... :P)
+Contributions are welcome through github pull requests (tests would sure be nice to have... :P).
 
-And if you're using the library and would like to say *"thanks!"* and/or keep me working on it, why not `buy me a beer <https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2UMJC8HSU8RFJ&lc=PT&item_name=DoubleR&item_number=github%2f2xR%2fpaypal&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted>`_ ?
+And if you're using the library and would like to say *"thanks!"* and/or keep me working on it, why not `buy me a beer <https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2UMJC8HSU8RFJ&lc=PT&item_name=DoubleR&item_number=github%2f2xR%2fpaypal&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted>`_?
+
+Happy approximate comparisons!
