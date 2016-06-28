@@ -29,8 +29,11 @@ This keeps at least the absolute tolerance for when one of the numbers is 0. Add
 influence of absolute tolerance should fade when comparing large numbers, since the other term
 should be much larger.
 """
-from __future__ import absolute_import
-from itertools import izip_longest
+from __future__ import print_function, division, absolute_import, unicode_literals
+from future.utils import python_2_unicode_compatible
+from future.builtins import object
+from future.moves.itertools import zip_longest
+
 from collections import Iterable
 import pkgutil
 
@@ -71,6 +74,7 @@ def equal(x, y):
     return z <= 0.0 or z <= _rtol * max(abs(x), abs(y))
 
 
+@python_2_unicode_compatible
 class Approx(float):
     """
     A float subclass to mitigate (but does not eliminate!) floating point rounding errors by
@@ -125,10 +129,10 @@ class Approx(float):
     def __mul__(self, other):
         return type(self)(float(self) * other)
 
-    def __div__(self, other):
+    def __truediv__(self, other):
         return type(self)(float(self) / other)
 
-    __truediv__ = __div__
+    __div__ = __truediv__
 
     def __floordiv__(self, other):
         return type(self)(float(self) // other)
@@ -146,10 +150,10 @@ class Approx(float):
 
     __rmul__ = __mul__
 
-    def __rdiv__(self, other):
+    def __rtruediv__(self, other):
         return type(self)(other / float(self))
 
-    __rtruediv__ = __rdiv__
+    __rdiv__ = __rtruediv__
 
     def __rfloordiv__(self, other):
         return type(self)(other // float(self))
@@ -173,7 +177,7 @@ class Approx(float):
         x_is_iterable = isinstance(x, Iterable)
         y_is_iterable = isinstance(y, Iterable)
         if x_is_iterable and y_is_iterable:
-            return (cls._apply(op, u, v) for u, v in izip_longest(x, y, fillvalue=float("NaN")))
+            return (cls._apply(op, u, v) for u, v in zip_longest(x, y, fillvalue=float("NaN")))
         elif x_is_iterable:
             return (cls._apply(op, u, y) for u in x)
         elif y_is_iterable:
@@ -206,6 +210,7 @@ class Approx(float):
         return cls._apply(x, y, cls.__gt__)
 
 
+@python_2_unicode_compatible
 class ApproxContext(object):
     """
     A context manager which temporarily changes the relative and/or absolute tolerances for

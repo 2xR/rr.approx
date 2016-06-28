@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from setuptools import setup, find_packages
 import pkgutil
 
@@ -19,7 +20,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Operating System :: OS Independent",
     ],
     packages=find_packages(),
     package_data={"": ["LICENSE", "VERSION"]},
+    install_requires=["future~=0.15.2"],
 )
