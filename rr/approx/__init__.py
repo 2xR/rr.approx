@@ -29,8 +29,10 @@ This keeps at least the absolute tolerance for when one of the numbers is 0. Add
 influence of absolute tolerance should fade when comparing large numbers, since the other term
 should be much larger.
 """
-from __future__ import print_function, division, absolute_import, unicode_literals
-from future.utils import python_2_unicode_compatible
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 from future.builtins import object
 from future.moves.itertools import zip_longest
 
@@ -39,7 +41,7 @@ import pkgutil
 
 
 # Module-level variables
-__version__ = pkgutil.get_data(__name__, "VERSION").strip()
+__version__ = pkgutil.get_data(__name__, "VERSION").decode("utf-8").strip()
 _rtol = 1e-9  # default relative tolerance
 _atol = 1e-12  # default absolute tolerance
 
@@ -74,7 +76,6 @@ def equal(x, y):
     return z <= 0.0 or z <= _rtol * max(abs(x), abs(y))
 
 
-@python_2_unicode_compatible
 class Approx(float):
     """
     A float subclass to mitigate (but does not eliminate!) floating point rounding errors by
@@ -210,7 +211,6 @@ class Approx(float):
         return cls._apply(x, y, cls.__gt__)
 
 
-@python_2_unicode_compatible
 class ApproxContext(object):
     """
     A context manager which temporarily changes the relative and/or absolute tolerances for

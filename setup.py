@@ -1,14 +1,13 @@
-from __future__ import unicode_literals
 from setuptools import setup, find_packages
 import pkgutil
 
 
-with open("README.rst", "r") as readme_file:
+with open("README.rst", "rt") as readme_file:
     readme = readme_file.read()
 
 setup(
     name="rr.approx",
-    version=pkgutil.get_data("rr.approx", "VERSION").strip(),
+    version=pkgutil.get_data("rr.approx", "VERSION").decode("utf-8").strip(),
     description="A simple module for approximate floating point arithmetic.",
     long_description=readme,
     url="https://github.com/2xR/rr.approx",

@@ -31,6 +31,13 @@ Please note that this module **does not solve** any problems with floating point
 
 **Float rounding is inherently innaccurate** in all computers and programming languages due to representing a possibly recurring decimal in a finite number of digits. If you really care about exact results and don't mind paying a performance penalty, you should check out the `decimal <https://docs.python.org/2/library/decimal.html>`_ module from the standard library or some other alternative.
 
+
+Python compatibility
+--------------------
+
+Compatible with Python 2.7+ and 3.5+ (thanks to the ``future`` library). The code may or may not work under earlier versions of Python 3 (perhaps back to 3.3).
+
+
 Installation
 ------------
 
