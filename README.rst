@@ -17,12 +17,12 @@ The ``Approx.context()`` context manager allows temporary modification of relati
 
 .. code-block:: python
 
-print(Approx.rtol, Approx.atol)  # display current parameters
-print(Approx(0.1) * 3 == 0.3)  # make a test comparison
-with Approx.context(rtol=0, atol=0):  # temporary modification
-    print(Approx.rtol, Approx.atol)  # show modified tolerances
-    print(Approx(0.1) * 3 == 0.3)  # rerun the comparison
-print(Approx.rtol, Approx.atol)  # back to original parameters
+    print(Approx.rtol, Approx.atol)  # display current parameters
+    print(Approx(0.1) * 3 == 0.3)  # make a test comparison
+    with Approx.context(rtol=0, atol=0):  # temporary modification
+        print(Approx.rtol, Approx.atol)  # show modified tolerances
+        print(Approx(0.1) * 3 == 0.3)  # rerun the comparison
+    print(Approx.rtol, Approx.atol)  # back to original parameters
 
 
 Disclaimer
