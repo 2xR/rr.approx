@@ -2,64 +2,48 @@
 rr.approx
 =========
 
-Approximate floating point arithmetic library. This simple module can be used to compare numbers using a relative and absolute tolerance, to mitigate floating point rounding errors.
+Approximate floating point arithmetic library. This simple module can be used to compare numbers using a relative and absolute tolerance, to mitigate (not eliminate!) floating point rounding errors.
 
 .. code-block:: python
 
     from rr.approx import Approx
 
     x = Approx(0.1) * 3
-    print x == 0.3  # True
+    x == 0.3  # True
 
 The ``Approx`` class is very simple to use as a replacement for "regular" floats -- you can use ``Approx`` objects instead of floats in most (if not all) contexts: arithmetic and comparisons.
 
-The ``ApproxContext`` class, also accessible as ``Approx.Context``, provides a context manager to temporarily modify the module's tolerance parameters.
+The ``Approx.context()`` context manager allows temporary modification of relative and absolute tolerance parameters.
 
 .. code-block:: python
 
-    print Approx.Context()  # display current context
-    Approx.Context(rtol=1e-4, atol=1e-2).apply()  # permanently modify tolerances
-    print Approx.Context()
-    with Approx.Context(rtol=1e-5, atol=1e-3):  # temporary modification
-        print Approx.Context()
-    print Approx.Context()
+print(Approx.rtol, Approx.atol)  # display current parameters
+print(Approx(0.1) * 3 == 0.3)  # make a test comparison
+with Approx.context(rtol=0, atol=0):  # temporary modification
+    print(Approx.rtol, Approx.atol)  # show modified tolerances
+    print(Approx(0.1) * 3 == 0.3)  # rerun the comparison
+print(Approx.rtol, Approx.atol)  # back to original parameters
+
 
 Disclaimer
-----------
+==========
 
 Please note that this module **does not solve** any problems with floating point numbers. What it does is provide a little (or big, depending on how you configure your tolerance parameters) buffer to compensate for rounding errors, but as these errors accumulate you can always get unexpected results.
 
-**Float rounding is inherently innaccurate** in all computers and programming languages due to representing a possibly recurring decimal in a finite number of digits. If you really care about exact results and don't mind paying a performance penalty, you should check out the `decimal <https://docs.python.org/2/library/decimal.html>`_ module from the standard library or some other alternative.
+**Float rounding is inherently inaccurate** in all computers and programming languages due to representing a possibly recurring decimal in a finite number of digits. If you really care about exact results and don't mind paying a performance penalty, you should check out the `decimal <https://docs.python.org/3/library/decimal.html>`_ module from the standard library or some other alternative.
 
 
-Python compatibility
---------------------
+Compatibility
+=============
 
-Compatible with Python 2.7+ and 3.5+ (thanks to the ``future`` library). The code may or may not work under earlier versions of Python 3 (perhaps back to 3.3).
+Developed and tested in Python 3.6+. The code may or may not work under earlier versions of Python 3 (perhaps back to 3.3).
 
 
 Installation
-------------
+============
 
-From PyPI ("stable" release):
-
-.. code-block:: bash
-
-    pip install rr.approx
-
-Or from the Git repo:
+From the github repo:
 
 .. code-block:: bash
 
-    git clone https://github.com/2xR/rr.approx.git
-    pip install ./rr.approx
-
-
-Contributing
-------------
-
-Contributions are welcome through github pull requests (tests would sure be nice to have... :P).
-
-And if you're using the library and would like to say *"thanks!"* and/or keep me working on it, why not `buy me a beer <https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2UMJC8HSU8RFJ&lc=PT&item_name=DoubleR&item_number=github%2f2xR%2fpaypal&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted>`_?
-
-Happy approximate comparisons!
+    pip install git+https://github.com/2xR/rr.approx.git
