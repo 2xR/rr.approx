@@ -47,3 +47,11 @@ From the github repo:
 .. code-block:: bash
 
     pip install git+https://github.com/2xR/rr.approx.git
+
+
+License
+=======
+
+This library is released as open source under the MIT License.
+
+Copyright (c) 2017 Rui Rei
